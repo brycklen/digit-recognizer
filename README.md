@@ -1,4 +1,4 @@
-# Digit-Recognizer
+# Digit Recognizer
 
 To Run:
 1. Download Zip
