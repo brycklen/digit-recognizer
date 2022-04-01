@@ -2,14 +2,12 @@ var canvas,ctx;
 var mouseX,mouseY,mouseDown=0;
 var touchX,touchY;
 
-function init()
-{
+function init() {
     canvas = document.getElementById('sketchpad');
     ctx = canvas.getContext('2d');
     ctx.fillStyle = "white";
     ctx.fillRect(0,0,canvas.width,canvas.height);
-    if(ctx)
-    {
+    if(ctx) {
         canvas.addEventListener('mousedown', sketchpad_mouseDown, false);          
         canvas.addEventListener('mousemove', sketchpad_mouseMove, false);          
         window.addEventListener('mouseup', sketchpad_mouseUp, false);           
@@ -18,10 +16,8 @@ function init()
     }
 }
 
-function draw(ctx,x,y,size,isDown)
-{
-    if(isDown)
-    {
+function draw(ctx,x,y,size,isDown) {
+    if(isDown) {
         ctx.beginPath();
         ctx.strokeStyle = "black";
         ctx.lineWidth = '45';
@@ -31,6 +27,7 @@ function draw(ctx,x,y,size,isDown)
         ctx.closePath();
         ctx.stroke();
     }
+    
     lastX = x;
     lastY = y;
 }
@@ -52,18 +49,18 @@ function sketchpad_mouseMove(e) {
     }
 }
 
-function getMousePos(e) 
-{    
-    if (!e)        
-      var e = event;     
-    if (e.offsetX) {        
+function getMousePos(e) {    
+    if (!e) {        
+      var e = event;
+    }
+    else if (e.offsetX) {        
       mouseX = e.offsetX;        
       mouseY = e.offsetY;    
     }    
     else if (e.layerX) {        
       mouseX = e.layerX;        
       mouseY = e.layerY;    
-    } 
+    }
 }
 
 //touch event handler
@@ -71,7 +68,6 @@ function getMousePos(e)
 function sketchpad_touchStart() {     
     getTouchPos();    
     draw(ctx,touchX,touchY,12, false);    
-    //this prevents scrolling of screen when user draws
     event.preventDefault();
 }
 
@@ -93,8 +89,7 @@ function getTouchPos(e) {
     }
 }
 
-document.getElementById('clear_button').addEventListener("click",  
-                                             function(){  
+document.getElementById('clear_button').addEventListener("click", function() {  
     ctx.clearRect(0, 0, canvas.width, canvas.height);  
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -107,6 +102,7 @@ let model;
 })();
 
 function preprocessCanvas(image) {
+    // possibly problematic
     let tensor = tf.browser.fromPixels(image).resizeNearestNeighbor([28, 28]).mean(2).expandDims(2).expandDims().toFloat();
     console.log(tensor.shape);
     return tensor.div(255.0);
@@ -126,14 +122,14 @@ document.getElementById('predict_button').addEventListener("click",async functio
 
 function displayLabel(data) { 
     var max = data[0];    
-    var maxIndex = 0;     
+    var mainIndex = 0;     
     for (var i = 1; i < data.length; i++) {        
       if (data[i] > max) {            
-        maxIndex = i;            
+        mainIndex = i;            
         max = data[i];        
       }
     }
 
-    document.getElementById('result').innerHTML = maxIndex;
-    document.getElementById('confidence').innerHTML = "Best Guess: "+(max*100).toFixed(2) + "%";
+    document.getElementById('result').innerHTML = mainIndex;
+    document.getElementById('confidence').innerHTML = "Best Guess: " + (max * 100).toFixed(2) + "%";
 }
