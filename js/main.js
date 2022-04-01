@@ -106,23 +106,32 @@ var base_url = window.location.origin;
 let model;
 (async function(){  
     console.log("model loading...");  
-    model = await tf.loadLayersModel("localstorage://model")
+    model = await tf.loadLayersModel('https://raw.githubusercontent.com/brycklen/Digit-Recognizer/main/models/model.json')
     console.log("model loaded..");
 })();
 
 function preprocessCanvas(image) {
-    let tensor = tf.browser.fromPixels(image).resizeNearestNeighbor([28, 28]).mean(2).expandDims(2).expandDims().toFloat(); 
-    console.log(tensor.shape); 
+    console.log("4212414...");
+    let tensor = tf.browser.fromPixels(image).resizeNearestNeighbor([28, 28]).mean(2).expandDims(2).expandDims().toFloat();
+    console.log("testing...");
+    console.log(tensor.shape);
+    console.log("clear...");
     return tensor.div(255.0);
 }
 
 //Guess
-document.getElementById('predict_button').addEventListener("click",async function(){     
-    var imageData = canvas.toDataURL();    
-    let tensor = preprocessCanvas(canvas); 
-    console.log(tensor)   
-    let predictions = await model.predict(tensor).data();  
-    console.log(predictions)  
+document.getElementById('predict_button').addEventListener("click",async function(){
+    console.log("1...");
+    var imageData = canvas.toDataURL();
+    console.log("2...");
+    let tensor = preprocessCanvas(canvas);
+    console.log("3...")
+    console.log(tensor)
+    console.log("4...")
+    let predictions = await model.predict(tensor).data();
+    console.log("5...")
+    console.log(predictions)
+    console.log("6...")
     let results = Array.from(predictions);    
     displayLabel(results);    
     console.log(results);
