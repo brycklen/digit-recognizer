@@ -6,7 +6,7 @@ function init()
 {
     canvas = document.getElementById('sketchpad');
     ctx = canvas.getContext('2d');
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "white";
     ctx.fillRect(0,0,canvas.width,canvas.height);
     if(ctx)
     {
@@ -23,7 +23,7 @@ function draw(ctx,x,y,size,isDown)
     if(isDown)
     {
         ctx.beginPath();
-        ctx.strokeStyle = "white";
+        ctx.strokeStyle = "black";
         ctx.lineWidth = '45';
         ctx.lineJoin = ctx.lineCap = 'round';
         ctx.moveTo(lastX, lastY);
@@ -96,14 +96,14 @@ function getTouchPos(e) {
 document.getElementById('clear_button').addEventListener("click",  
                                              function(){  
     ctx.clearRect(0, 0, canvas.width, canvas.height);  
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 });
 
 var base_url = window.location.origin;
 let model;
 (async function(){
-    model = await tf.loadLayersModel("https://raw.githubusercontent.com/brycklen/Digit-Recognizer/main/models/model.json")
+    model = await tf.loadLayersModel("https://maneprajakta.github.io/Digit_Recognition_Web_App/models/model.json")
 })();
 
 function preprocessCanvas(image) {
