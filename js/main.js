@@ -5,7 +5,7 @@ var touchX,touchY;
 function init() {
     canvas = document.getElementById('sketchpad');
     ctx = canvas.getContext('2d');
-    ctx.fillStyle = "white";
+    ctx.fillStyle = "black";
     ctx.fillRect(0,0,canvas.width,canvas.height);
     if(ctx) {
         canvas.addEventListener('mousedown', sketchpad_mouseDown, false);          
@@ -19,7 +19,7 @@ function init() {
 function draw(ctx,x,y,size,isDown) {
     if(isDown) {
         ctx.beginPath();
-        ctx.strokeStyle = "black";
+        ctx.strokeStyle = "white";
         ctx.lineWidth = '45';
         ctx.lineJoin = ctx.lineCap = 'round';
         ctx.moveTo(lastX, lastY);
@@ -91,7 +91,7 @@ function getTouchPos(e) {
 
 document.getElementById('clear_button').addEventListener("click", function() {  
     ctx.clearRect(0, 0, canvas.width, canvas.height);  
-    ctx.fillStyle = "white";
+    ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 });
 
