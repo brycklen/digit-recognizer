@@ -2,7 +2,7 @@
 
 Much credit is due to this repository for helping with the Javascript and modeling parts of this program: https://github.com/maneprajakta/Digit_Recognition_Web_App
 
-A deployment of this project is available at https://brycklen.github.io/Digit-Recognizer/
+A deployment of this project is available at
 
 To Run:
 1. Download Zip
