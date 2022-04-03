@@ -21,3 +21,5 @@ The model and its accompanying data is saved in the models folder for future ref
 
 # Webpage
 The webpage utilizes TensorFlow JS, Bootstrap, and a simple canvas intended for the user to draw a digit. Images are converted to tensors that get processed in the backend (main.js).
+
+**NOTE:** Much of the code has been optimized for easier reading. However, some sections may still be unclear for the typical developer passing through
