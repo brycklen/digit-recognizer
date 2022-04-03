@@ -1,5 +1,7 @@
 # Digit Recognizer
 
+Much credit is due to this repository for helping with the Javascript and modeling parts of this program: https://github.com/maneprajakta/Digit_Recognition_Web_App
+
 To Run:
 1. Download Zip
 2. Unzip
