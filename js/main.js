@@ -2,7 +2,7 @@ var canvas,pad,touchX,touchY;
 var mouseX,mouseY,mouseDown=0;
 
 // Initializes canvas for webpage
-function init() {
+function initialize() {
     canvas = document.getElementById('sketchpad');
     pad = canvas.getContext('2d');
     pad.fillStyle = "black";

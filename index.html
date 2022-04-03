@@ -6,7 +6,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
 </head>
 
-<body style="text-align:center" onload="init()">
+<body style="text-align:center" onload="initialize()">
 
 <section>
   <h1>Digit Recognizer</h1>
@@ -15,20 +15,18 @@
 
 <section>
   <div>
-    <div>
-      <canvas id="sketchpad" height="420" width="420"></canvas>
-    </div>
+    <canvas id="sketchpad" height="420" width="420"></canvas>
+  </div>
 
-    <div>
-      <button type="button" class="btn btn-primary" id="predict_button">Guess</button>
-      <button type="button" class="btn btn-danger" id="clear_button">Wipe</button>
-    </div>
+  <div>
+    <button type="button" class="btn btn-primary" id="predict_button">Guess</button>
+    <button type="button" class="btn btn-danger" id="clear_button">Wipe</button>
+  </div>
 
-    <div class="predicted_answer">
-      <h2 id="prediction_heading">Guess</h2>
-      <h1 id="result">-</h1>
-      <p id="resultTwo">2nd Best Guess: -</p>
-    </div>
+  <div class="predicted_answer">
+    <h2 id="prediction_heading">Guess</h2>
+    <h1 id="result">-</h1>
+    <p id="resultTwo">2nd Best Guess: -</p>
   </div>
 </section>
 
