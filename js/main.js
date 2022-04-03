@@ -20,7 +20,7 @@ function draw(ctx,x,y,size,isDown) {
     if(isDown) {
         ctx.beginPath();
         ctx.strokeStyle = "white";
-        ctx.lineWidth = '45';
+        ctx.lineWidth = '25';
         ctx.lineJoin = ctx.lineCap = 'round';
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(x,y);
@@ -98,13 +98,11 @@ document.getElementById('clear_button').addEventListener("click", function() {
 var base_url = window.location.origin;
 let model;
 (async function(){
-    model = await tf.loadLayersModel("https://maneprajakta.github.io/Digit_Recognition_Web_App/models/model.json")
+    model = await tf.loadLayersModel("https://raw.githubusercontent.com/brycklen/ML-MNIST-MODEL-ENDPOINT/main/model.json")
 })();
 
 function preprocessCanvas(image) {
-    // possibly problematic
-    let tensor = tf.browser.fromPixels(image).resizeNearestNeighbor([28, 28]).mean(2).expandDims(2).expandDims().toFloat();
-    console.log(tensor.shape);
+    let tensor = tf.browser.fromPixels(image).resizeNearestNeighbor([28, 28]).mean(2).expandDims();
     return tensor.div(255.0);
 }
 
@@ -112,17 +110,18 @@ function preprocessCanvas(image) {
 document.getElementById('predict_button').addEventListener("click",async function(){
     var imageData = canvas.toDataURL();
     let tensor = preprocessCanvas(canvas);
-    console.log(tensor)
     let predictions = await model.predict(tensor).data();
-    console.log(predictions)
     let results = Array.from(predictions);    
-    displayLabel(results);    
+    displayLabel(results);
     console.log(results);
 });
 
 function displayLabel(data) { 
     var max = data[0];    
-    var mainIndex = 0;     
+    var mainIndex = 0;
+    var secondMax = data[0];
+    var secondIndex = 0;
+
     for (var i = 1; i < data.length; i++) {        
       if (data[i] > max) {            
         mainIndex = i;            
@@ -130,6 +129,13 @@ function displayLabel(data) {
       }
     }
 
+    for (var i = 1; i < data.length; i++) {
+        if (data[i] < max && data[i] > secondMax) {
+            secondIndex = i;
+            secondMax = data[i];
+        }
+    }
+
     document.getElementById('result').innerHTML = mainIndex;
-    document.getElementById('confidence').innerHTML = "Best Guess: " + (max * 100).toFixed(2) + "%";
+    document.getElementById('resultTwo').innerHTML = "2nd Best Guess: " + secondIndex;
 }
