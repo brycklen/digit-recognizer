@@ -1,26 +1,22 @@
-var canvas,pad,touchX,touchY;
-var mouseX,mouseY,mouseDown=0;
+var canvas, pad, touchX, touchY;
+var mouseX, mouseY, mouseDown=0;
 
 // Initializes canvas for webpage
 function initialize() {
     canvas = document.getElementById('sketchpad');
     pad = canvas.getContext('2d');
     pad.fillStyle = "black";
-    pad.fillRect(0,0, canvas.width, canvas.height);
-    if(pad) {
-        canvas.addEventListener('mousedown', sketchpad_mouseDown, false);
-        canvas.addEventListener('mousemove', sketchpad_mouseMove, false);
-        window.addEventListener('mouseup', sketchpad_mouseUp, false);
-        canvas.addEventListener('touchstart', sketchpad_touchStart,false);
-        canvas.addEventListener('touchmove', sketchpad_touchMove, false);
-    }
+    pad.fillRect(0, 0, canvas.width, canvas.height);
+    canvas.addEventListener('mousedown', sketchpad_mouseDown, false);
+    canvas.addEventListener('mousemove', sketchpad_mouseMove, false);
+    window.addEventListener('mouseup', sketchpad_mouseUp, false);
 }
 
-function draw(pad,x,y,size,isDown) {
-    if(isDown) {
+function draw(pad, x, y, size, isDown) {
+    if (isDown) {
         pad.beginPath();
         pad.strokeStyle = "white";
-        pad.lineWidth = '38';
+        pad.lineWidth = '30';
         pad.lineJoin = pad.lineCap = 'round';
         pad.moveTo(recentX, recentY);
         pad.lineTo(x, y);
@@ -34,18 +30,18 @@ function draw(pad,x,y,size,isDown) {
 
 //Event handlers
 function sketchpad_mouseDown() {
-    mouseDown=1;
-    draw(pad,mouseX,mouseY,12, false );
+    mouseDown = 1;
+    draw(pad, mouseX, mouseY, 12, false );
 }
 
 function sketchpad_mouseUp() {
-    mouseDown=0;
+    mouseDown = 0;
 }
 
 function sketchpad_mouseMove(e) {
     getMousePos(e);
     if (mouseDown === 1) {
-        draw(pad,mouseX,mouseY,12, true);
+        draw(pad, mouseX, mouseY, 12, true);
     }
 }
 
@@ -60,31 +56,7 @@ function getMousePos(e) {
     }
 }
 
-//touch event handler
-
-function sketchpad_touchStart() {
-    getTouchPos();
-    draw(pad,touchX,touchY,12, false);
-    event.preventDefault();
-}
-
-function sketchpad_touchMove(e) {
-    getTouchPos(e);
-    draw(pad,touchX,touchY,12, true);
-    event.preventDefault();
-}
-
-function getTouchPos(e) {
-    if(e.touches) {
-        if (e.touches.length === 1) {
-            var touch = e.touches[0];
-            touchX = touch.pageX - touch.target.offsetLeft;
-            touchY = touch.pageY - touch.target.offsetTop;
-        }
-    }
-}
-
-document.getElementById('clear_button').addEventListener("click", function() {
+document.getElementById('wipe_button').addEventListener("click", function() {
     pad.clearRect(0, 0, canvas.width, canvas.height);
     pad.fillStyle = "black";
     pad.fillRect(0, 0, canvas.width, canvas.height);
@@ -100,7 +72,7 @@ let model;
 })();
 
 function loadCanvas(image) {
-    // creating a tensor (multidimensional array) and fitting it to work with the model
+    // creating a tensor (multidimensional array) from canvas image and fitting it to work with the model
     // model needs input of [integer, 28, 28] for it to function properly
     let tensor = tf.browser.fromPixels(image).resizeNearestNeighbor([28, 28]).mean(2).expandDims();
     // scaling RGB values to 0-1 scale by dividing by 255, just like how it was done in model.ipynb
@@ -108,7 +80,7 @@ function loadCanvas(image) {
 }
 
 // Predict Button
-document.getElementById('predict_button').addEventListener("click",async function(){
+document.getElementById('guess_button').addEventListener("click", async function(){
     let tensor = loadCanvas(canvas);
     let predictions = await model.predict(tensor).data();
     let results = Array.from(predictions);
@@ -122,7 +94,7 @@ function processResults(data) {
     var secondMaximum = data[0];
     var secondIndex = 0;
 
-    // g
+    // Saves the main prediction for the model
     for (var i = 1; i < data.length; i++) {
         if (data[i] > maximum) {
             maxIndex = i;
@@ -130,6 +102,7 @@ function processResults(data) {
         }
     }
 
+    // Saves the second best prediction for the model
     for (var j = 1; j < data.length; j++) {
         if (data[j] < maximum && data[j] > secondMaximum) {
             secondIndex = j;
