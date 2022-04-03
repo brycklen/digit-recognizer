@@ -20,7 +20,7 @@ function draw(ctx,x,y,size,isDown) {
     if(isDown) {
         ctx.beginPath();
         ctx.strokeStyle = "white";
-        ctx.lineWidth = '25';
+        ctx.lineWidth = '38';
         ctx.lineJoin = ctx.lineCap = 'round';
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(x,y);
