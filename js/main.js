@@ -7,6 +7,12 @@ function initialize() {
     pad = canvas.getContext('2d');
     pad.fillStyle = "black";
     pad.fillRect(0, 0, canvas.width, canvas.height);
+
+    canvasB = document.getElementById('scaledformodel');
+    padB = canvasB.getContext('2d');
+    padB.fillStyle = "black";
+    padB.fillRect(0, 0, canvas.width, canvas.height);
+
     canvas.addEventListener('mousedown', sketchpad_mouseDown, false);
     canvas.addEventListener('mousemove', sketchpad_mouseMove, false);
     window.addEventListener('mouseup', sketchpad_mouseUp, false);
@@ -60,6 +66,11 @@ document.getElementById('wipe_button').addEventListener("click", function() {
     pad.clearRect(0, 0, canvas.width, canvas.height);
     pad.fillStyle = "black";
     pad.fillRect(0, 0, canvas.width, canvas.height);
+
+    padB.clearRect(0, 0, canvas.width, canvas.height);
+    padB.fillStyle = "black";
+    padB.fillRect(0, 0, canvas.width, canvas.height);
+
     console.log("Canvas wiped!")
 });
 
@@ -75,6 +86,10 @@ function loadCanvas(image) {
     // creating a tensor (multidimensional array) from canvas image and fitting it to work with the model
     // model needs input of [integer, 28, 28] for it to function properly
     let tensor = tf.browser.fromPixels(image).resizeNearestNeighbor([28, 28]).mean(2).expandDims();
+    let tensorA = tf.browser.fromPixels(image).resizeNearestNeighbor([28, 28]);
+    tensorA = tensorA.resizeNearestNeighbor([420, 420]);
+
+    tf.browser.toPixels(tensorA, document.getElementById('scaledformodel'));
     // scaling RGB values to 0-1 scale by dividing by 255, just like how it was done in model.ipynb
     return tensor.div(255);
 }
