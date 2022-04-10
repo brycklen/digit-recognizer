@@ -28,6 +28,10 @@ function draw(pad, x, y, size, isDown) {
         pad.lineTo(x, y);
         pad.closePath();
         pad.stroke();
+        // Real-Time Model Tracing
+        let tensorA = tf.browser.fromPixels(canvas).resizeNearestNeighbor([28, 28]);
+        tensorA = tensorA.resizeNearestNeighbor([420, 420]);
+        tf.browser.toPixels(tensorA, document.getElementById('scaledformodel'));
     }
 
     recentX = x;
@@ -86,10 +90,6 @@ function loadCanvas(image) {
     // creating a tensor (multidimensional array) from canvas image and fitting it to work with the model
     // model needs input of [integer, 28, 28] for it to function properly
     let tensor = tf.browser.fromPixels(image).resizeNearestNeighbor([28, 28]).mean(2).expandDims();
-    let tensorA = tf.browser.fromPixels(image).resizeNearestNeighbor([28, 28]);
-    tensorA = tensorA.resizeNearestNeighbor([420, 420]);
-
-    tf.browser.toPixels(tensorA, document.getElementById('scaledformodel'));
     // scaling RGB values to 0-1 scale by dividing by 255, just like how it was done in model.ipynb
     return tensor.div(255);
 }
