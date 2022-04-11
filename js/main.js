@@ -90,6 +90,7 @@ function loadCanvas(image) {
     // creating a tensor (multidimensional array) from canvas image and fitting it to work with the model
     // model needs input of [integer, 28, 28] for it to function properly
     let tensor = tf.browser.fromPixels(image).resizeNearestNeighbor([28, 28]).mean(2).expandDims();
+    console.log(tensor.dataSync());
     // scaling RGB values to 0-1 scale by dividing by 255, just like how it was done in model.ipynb
     return tensor.div(255);
 }
